@@ -1,5 +1,5 @@
 //initialize web3 and connect metamask
-var web3, account, theContract; 
+var web3, account, fund; 
 $('#loader').hide();
 
 window.addEventListener('load', function() {
@@ -8,8 +8,8 @@ window.addEventListener('load', function() {
     window.ethereum.enable();
     account = web3.currentProvider.selectedAddress;
     console.log("connected with: "+account);
-    theContract = new web3.eth.Contract(theContractABI,'0x95d480d7d50fc34f53db74d0d5585fc84c1ac284');
-    getMessage();
+    fund = new web3.eth.Contract(fundABI,'0x29d6145d6F3DA561de42E413048EB0dFAE11D9b0');
+    getFundName();
   }
   else {
     console.log('Error: web3 provider not found... Make sure metamask or the wallet is configured properly.');
@@ -50,8 +50,36 @@ function writeMessage(){
 }
 
 //read
-function getMessage(){
-  theContract.methods.getMessage()
+function getFundName(){
+  fund.methods.name()
+  .call({from: account},
+    async function(error, result) {
+      if (!error){
+        console.log(result);
+        $('#message').html(result);
+      }
+      else
+      console.error(error);
+    }
+  );
+}
+
+function getFundSymbol(){
+  fund.methods.symbol()
+  .call({from: account},
+    async function(error, result) {
+      if (!error){
+        console.log(result);
+        $('#message').html(result);
+      }
+      else
+      console.error(error);
+    }
+  );
+}
+
+function getFundTotalSupply(){
+  fund.methods.totalSupply()
   .call({from: account},
     async function(error, result) {
       if (!error){
