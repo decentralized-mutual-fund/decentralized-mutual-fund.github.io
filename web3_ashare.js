@@ -50,15 +50,15 @@ function writeMessage(){
 }
 
 function createFund(){
-  var _fundNameInput = $('#fundNameInput').val();
-  var _fundSymbolInput = $('#fundSymbolInput').val();
   var _initialAmountInput = $('#initialAmountInput').val();
+  var _fundNameInput = $('#fundNameInput').val();
+  var _fundSymbolInput = "A" + $('#fundSymbolInput').val();
   var _fundTypeInput = $('#fundTypeInput').val();
   
   newFund = new web3.eth.Contract(fundABI)
   .deploy({
 	  data: fundABI.evm.bytecode.object,
-	  arguments: []
+	  arguments: [_initialAmountInput, _fundNameInput, _fundSymbolInput, _fundTypeInput]
   })
   .send({ from: account, gas: 3000000, gasPrice: 30*1000000000 })
 
