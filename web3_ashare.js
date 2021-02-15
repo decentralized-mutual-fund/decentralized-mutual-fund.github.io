@@ -57,7 +57,6 @@ function createFund(){
   
   newFund = new web3.eth.Contract(fundABI)
   .deploy({
-	  data: fundABI.evm.bytecode.object,
 	  arguments: [_initialAmountInput, _fundNameInput, _fundSymbolInput, _fundTypeInput]
   })
   .send({ from: account, gas: 3000000, gasPrice: 30*1000000000 })
