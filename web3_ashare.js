@@ -1,5 +1,5 @@
 //initialize web3 and connect metamask
-var web3, account, fund; 
+var web3, account, fund, newFund; 
 $('#loader').hide();
 
 window.addEventListener('load', function() {
@@ -27,7 +27,7 @@ function writeMessage(){
 
   .on('transactionHash', function (txHash) {
     console.log("Txn sent. Please wait for confirmation.");
-    $('#myBtn').hide();
+    $('#createFundBtn').hide();
     $('#loader').show();
     console.log(txHash);
   })
@@ -36,12 +36,45 @@ function writeMessage(){
     if(receipt.status == true){
 
       $('#loader').hide();
-      $('#myBtn').show();
+      $('#createFundBtn').show();
       console.log("Txn successful: "+receipt.status);
       //grab message from event
       var message = receipt.events.messageWrite.returnValues['_text'];
       console.log(`new message is: ${message}`);
       $('#message').html(message);
+    }
+    else{
+      console.log("there was an error");
+    } 
+  }).once('error', function(error){console.log(error);});
+}
+
+function createFund(){
+  var _fundNameInput = $('#fundNameInput').val();
+  var _fundSymbolInput = $('#fundSymbolInput').val();
+  var _initialAmountInput = $('#initialAmountInput').val();
+  var _fundTypeInput = $('#fundTypeInput').val();
+  
+  newFund = new web3.eth.Contract(fundABI)
+  .deploy({
+	  data: fundABI.evm.bytecode.object,
+	  arguments: []
+  })
+  .send({ from: account, gas: 3000000, gasPrice: 30*1000000000 })
+
+  .on('transactionHash', function (txHash) {
+    console.log("Txn sent. Please wait for confirmation.");
+    $('#createFundBtn').hide();
+    $('#loader').show();
+    console.log(txHash);
+  })
+  .once('confirmation', function(confNumber, receipt){ 
+    console.log(receipt.status);
+    if(receipt.status == true){
+
+      $('#loader').hide();
+      $('#createFundBtn').show();
+      console.log("Txn successful: "+receipt.status);
     }
     else{
       console.log("there was an error");

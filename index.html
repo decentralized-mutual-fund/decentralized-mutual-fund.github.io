@@ -36,11 +36,24 @@
       
       <form>
         <div class="form-group">
-          <input type="text" class="form-control" id="messageInput" placeholder="mutual fund name">
+          <input type="text" class="form-control" id="fundNameInput" required placeholder="Mutual fund name">
+		  <input type="text" class="form-control" id="fundSymbolInput" required minlength="1" maxlength="4" placeholder="Mutual fund symbol (will prefix with A)">
+		  <input type="number" class="form-control" id="initialAmountInput" required placeholder="Initial number of shares" min="1">
+		  <label for="fundTypeInput">Fund type:</label>
+		  <select id="fundTypeInput">
+			<option value="0">--Mutual fund type--</option>
+			<option value="1">Money Market Fund</option>
+			<option value="2">Fixed Income Fund</option>
+			<option value="3">Equity Fund</option>
+			<option value="4">Balanced Fund</option>
+			<option value="5">Index Fund</option>
+			<option value="6">Speciality Fund</option>
+			<option value="7">Fund-of-Funds</option>
+		  </select>
         </div>
       </form>
 
-    <button id="myBtn" onclick="writeMessage();" type="submit" class="btn btn-primary">Create Decentralized Mutual Fund</button>
+    <button id="createFundBtn" onclick="createFund();" type="submit" class="btn btn-primary">Create Decentralized Mutual Fund</button>
     
     <span id="result">
       <img id="loader" src="loading.gif">
@@ -56,7 +69,7 @@
 
 <!-- blockchain stuff -->
 <script src="w3_b.js"></script>
-<script src="theContractABI.js"></script>
+<script src="fundABI.js"></script>
 <script src="web3_ashare.js"></script>
 
 </body>
