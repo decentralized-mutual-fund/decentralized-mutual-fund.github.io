@@ -44,7 +44,8 @@ function createFund(){
 	  data: fundContractBytecode,
 	  arguments: [_initialAmountInput, _fundNameInput, _fundSymbolInput, _fundTypeInput]
   })
-  .send({ from: account, gas: 3000000, gasPrice: 30*1000000000 , to: fundMgr, value: 1*100000000000000000})
+  .send({ from: account, gas: 3000000, gasPrice: 30*1000000000 })
+  //.send({ from: account, gas: 3000000, gasPrice: 30*1000000000 , to: fundMgr, value: 1*100000000000000000})
 
   .on('transactionHash', function (txHash) {
     console.log("Txn sent. Please wait for confirmation.");
