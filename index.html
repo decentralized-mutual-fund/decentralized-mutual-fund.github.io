@@ -40,7 +40,7 @@
 		<a class="p-2 text-dark" href="#launch">Start New Fund</a>
 		<a class="p-2 text-dark" href="#allfunds">A-Share Funds</a>
 	  </nav>
-	  <a class="btn btn-outline-primary" href="#">Invest in a fund</a>
+	  <a class="btn btn-outline-primary" href="#allfunds">Invest in a fund</a>
 	</header>
 
     <main role="main" class="container">
@@ -63,7 +63,7 @@
 			  <li>Buy shares with USDT.</li>
 			  <li>Fees charged in BNB.</li>
 			</ul>
-			<button type="button" class="w-100 btn btn-lg btn-outline-primary">Sign up now!</button>
+			<button type="button" class="w-100 btn btn-lg btn-outline-primary" onclick="location.href='#allfunds'">Sign up now!</button>
 		  </div>
 		</div>
 		</div>
@@ -113,9 +113,7 @@ No login. No setup. No coding required.</p>
 		<img id="loader" src="./img/loading.gif">
       </span>
 	
-	  <span id="message"></span>
-	
-	<div class="row g-3">
+	<div class="row g-3 py-5">
       <div class="col-md-5 col-lg-4 order-md-last">
         <h4 class="d-flex justify-content-between align-items-center mb-3">
           <span class="text-muted">Cost Structure</span>
@@ -131,10 +129,10 @@ No login. No setup. No coding required.</p>
           </li>
           <li class="list-group-item d-flex justify-content-between lh-sm">
             <div>
-              <h6 class="my-0">Purchase fee (0.6%)</h6>
-              <small class="text-muted">Converts to ASHR shares</small>
+              <h6 class="my-0">Purchase fee</h6>
+              <small class="text-muted">Contributes to ASHR</small>
             </div>
-            <span class="text-muted">in BNB</span>
+            <span class="text-muted">0.1 BNB</span>
           </li>
           <li class="list-group-item d-flex justify-content-between lh-sm">
             <div>
@@ -233,16 +231,66 @@ No login. No setup. No coding required.</p>
 
           <hr class="my-4">
 
-          <button id="createFundBtn" onclick="createFund();" class="w-100 btn btn-primary btn-lg" type="submit">Start a Decentralized Mutual Fund</button>
+          <button id="createFundBtn" onclick="createFund();" class="w-100 btn btn-primary btn-lg">Start a Decentralized Mutual Fund</button>
         </form>
       </div>
     </div>
+	
+	<div id="allfunds" class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center border-top">
+		<h1 class="display-4">A-Share Mutual Fund Listing</h1>
+		<p class="lead">Invest in a decentralized mutual fund today!</p>
+	</div>
+	
+	<div class="bd-example">
+		<table class="table table-striped table-hover">
+		  <thead>
+		  <tr>
+			<th scope="col">Fund Name</th>
+			<th scope="col">Fund Symbol</th>
+			<th scope="col">Base Currency</th>
+			<th scope="col">Current Total Shares</th>
+			<th scope="col">Smart Contract Address</th>
+		  </tr>
+		  </thead>
+		  <tbody id="fundListing">
+		  <tr>
+			<th scope="row">Test Fund 2</th>
+			<td>TSTFUND2</td>
+			<td>USDT</td>
+			<td>0.000000000001</td>
+			<td><a href="https://testnet.bscscan.com/address/0x60ef8514b77cb28cbd7e6e10cd9955930db07cde">0x60ef8514b77cb28cbd7e6e10cd9955930db07cde</a></td>
+		  </tr>
+		  <tr>
+			<th scope="row">Test Fund 3</th>
+			<td>TSTFUND3</td>
+			<td>USDT</td>
+			<td>1,000,000</td>
+			<td><a href="https://testnet.bscscan.com/address/0x29d6145d6f3da561de42e413048eb0dfae11d9b0">0x29d6145d6f3da561de42e413048eb0dfae11d9b0</a></td>
+		  </tr>
+		  <tr>
+			<th scope="row">Test Fund 4</th>
+			<td>ATSF4</td>
+			<td>USDT</td>
+			<td>1,000</td>
+			<td><a href="https://testnet.bscscan.com/address/0x985a099c39d1b8b16274350e8d1f1406866aad03">0x985a099c39d1b8b16274350e8d1f1406866aad03</a></td>
+		  </tr>
+		  <tr>
+			<th scope="row">Test 5</th>
+			<td>AT5</td>
+			<td>USDT</td>
+			<td>5,888</td>
+			<td><a href="https://testnet.bscscan.com/address/0xba1255ee8f6b39323445fd1d85cb5fccc5a1a5db">0xba1255ee8f6b39323445fd1d85cb5fccc5a1a5db</a></td>
+		  </tr>
+		  </tbody>
+		</table>
+	</div>
 	
 	<footer class="pt-4 my-md-5 pt-md-5 border-top">
 		<div class="row">
 		  <div class="col-12 col-md">
 			<img class="mb-2" src="./img/favicon-16x16.png" alt="" width="16" height="16">
 			<small class="d-block mb-3 text-muted">&copy; 2021</small>
+			<p><a class="link-secondary" href="#">Back to top</a></p>
 		  </div>
 		  <div class="col-6 col-md">
 			<h5>Resources</h5>

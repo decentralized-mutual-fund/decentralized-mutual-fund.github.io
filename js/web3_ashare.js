@@ -9,10 +9,10 @@ window.addEventListener('load', function() {
 	getSelectedAccount();
 	
     //fund = new web3.eth.Contract(fundABI, fundMgr);
-    //getFundName();
+    //populateFundDetails(fundMgr);
   }
   else {
-    console.log('Error: web3 provider not found. Make sure Metamask or the wallet is configured properly. Otherwise, download and install Metamask: <a href="https://metamask.io/">https://metamask.io/</a>');
+    console.log('Error: web3 provider not found. Make sure Metamask or the wallet is configured properly. Otherwise, download and install Metamask: https://metamask.io/');
     $('#result').html('<div class="alert alert-danger alert-dismissible fade show" role="alert"><p>Error: Make sure your Metamask configured correctly. You may download and install Metamask here: <a href="https://metamask.io/">https://metamask.io/</a></p></div>');
   }
 });
@@ -60,6 +60,7 @@ function createFund(){
       $('#loader').hide();
       $('#createFundBtn').show();
       $('#result').html('<div class="alert alert-success alert-dismissible fade show" role="alert"><p>Mutual fund successfully created. Check your transaction status <a href="'+bscScanURL+'/tx/'+receipt.status+'">here</a></p></div>');
+	  populateFundDetails(receipt.status);
 	  console.log("Txn successful: "+receipt.status);
     }
     else{
@@ -69,13 +70,27 @@ function createFund(){
 }
 
 //read
-function getFundName(){
-  fund.methods.name()
+function populateFundDetails(_contractAddress){
+  var _fund = new web3.eth.Contract(fundABI, _contractAddress);
+  
+  $("#fundListing").append("<tr id='"+_contractAddress+"'></tr>");
+  
+  populateFundName(_fund, _contractAddress);
+  populateFundSymbol(_fund, _contractAddress);
+  populateBaseCurrency(_fund, _contractAddress)
+  //populateFundType(_fund, _contractAddress);
+  populateFundTotalSupply(_fund, _contractAddress);
+}
+
+function populateFundName(_fund, _contractAddress){
+  var _tblHeader = $("#" + _contractAddress).append("<th scope='row'></th>");
+  
+  _fund.methods.name()
   .call({from: account},
     async function(error, result) {
       if (!error){
         console.log(result);
-        $('#message').html(result);
+		_tblHeader.html(result);
       }
       else
       console.error(error);
@@ -83,13 +98,15 @@ function getFundName(){
   );
 }
 
-function getFundSymbol(){
-  fund.methods.symbol()
+function populateFundSymbol(_fund, _contractAddress){
+  var _tblData = $("#" + _contractAddress).append("<td></td>");
+  
+  _fund.methods.symbol()
   .call({from: account},
     async function(error, result) {
       if (!error){
         console.log(result);
-        $('#message').html(result);
+		_tblData.html(result);
       }
       else
       console.error(error);
@@ -97,13 +114,35 @@ function getFundSymbol(){
   );
 }
 
-function getFundTotalSupply(){
-  fund.methods.totalSupply()
+function populateBaseCurrency(_fund, _contractAddress){
+	var _tblData = $("#" + _contractAddress).append("<td>"+ "USDT" +"</td>");
+}
+
+function populateFundType(_fund, _contractAddress){
+  var _tblData = $("#" + _contractAddress).append("<td></td>");
+  
+  _fund.methods.getFundType()
   .call({from: account},
     async function(error, result) {
       if (!error){
         console.log(result);
-        $('#message').html(result);
+        _tblData.html(result);
+      }
+      else
+      console.error(error);
+    }
+  );
+}
+
+function populateFundTotalSupply(_fund, _contractAddress){
+  var _tblData = $("#" + _contractAddress).append("<td></td>");
+  
+  _fund.methods.totalSupply()
+  .call({from: account},
+    async function(error, result) {
+      if (!error){
+        console.log(result);
+        _tblData.html(result);
       }
       else
       console.error(error);
