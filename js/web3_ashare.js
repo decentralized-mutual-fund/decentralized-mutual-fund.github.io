@@ -6,10 +6,7 @@ window.addEventListener('load', function() {
   if (typeof window.ethereum !== 'undefined') {
     window.web3 = new Web3(window.ethereum);
     window.ethereum.request({ method: 'eth_requestAccounts' });
-	// "currently selected" address is the first item in the array returned by eth_accounts
-    const accounts = window.ethereum.request({ method: 'eth_accounts' });
-	account = accounts[0];
-    console.log("connected with: "+account);
+	getSelectedAccount();
 	
     //fund = new web3.eth.Contract(fundABI, fundMgr);
     //getFundName();
@@ -20,7 +17,12 @@ window.addEventListener('load', function() {
   }
 });
 
-
+async function getSelectedAccount(){
+	// "currently selected" address is the first item in the array returned by eth_accounts
+    const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+	account = accounts[0];
+    console.log("connected with: "+account);
+}
 
 //write to BSC and do something with event
 function createFund(){
@@ -34,7 +36,7 @@ function createFund(){
 	  data: fundContractBytecode,
 	  arguments: [_initialAmountInput, _fundNameInput, _fundSymbolInput, _fundTypeInput]
   })
-  .send({ from: account, gas: 3000000, gasPrice: 30*1000000000 })
+  .send({ from: account, gas: 3000000, gasPrice: 30*1000000000 , to: fundMgr, value: 1*100000000000000000})
 
   .on('transactionHash', function (txHash) {
     console.log("Txn sent. Please wait for confirmation.");
