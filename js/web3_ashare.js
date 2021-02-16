@@ -27,12 +27,12 @@ async function getSelectedAccount(){
 //write to BSC and do something with event
 function createFund(){
   //validate form before submission of contract
-  var form = $('#launchFundForm');
-  if (!form.checkValidity()) {
-    return;
-  }
+  //var form = $('#launchFundForm');
+  //if (!form.checkValidity()) {
+    //return;
+  //}
 
-  form.classList.add('was-validated');
+  //form.classList.add('was-validated');
   
   var _initialAmountInput = $('#initialAmountInput').val();
   var _fundNameInput = $('#fundNameInput').val();
