@@ -105,11 +105,11 @@ function populateFundDetails(_fundPlatform){
 		for(let i = 0; i < result.length; i++){
 			var _fund = new web3.eth.Contract(fundABI, result[i]);
   
-			$("#fundListing").append("<tr id='"+result[i]+"'><th scope='row' class='className'></th><td class='classSymbol'></td><td class='classCurrency'></td><td class='classTotalSupply'></td><td class='classFundType'></td><td><a href='https://testnet.bscscan.com/address/"+result[i]+"'>Details</a></td></tr>");
+			$("#fundListing").append("<tr id='"+result[i]+"'><th scope='row' class='className'></th><td class='classSymbol'></td><td class='classNAV'></td><td class='classTotalSupply'></td><td class='classFundType'></td><td><a href='https://testnet.bscscan.com/address/"+result[i]+"'>Details</a></td></tr>");
 			  
 			populateFundName(_fund, result[i]);
 			populateFundSymbol(_fund, result[i]);
-			populateBaseCurrency(_fund, result[i])
+			populateNAV(_fund, result[i])
 			populateFundTotalSupply(_fund, result[i]);
 			populateFundType(_fund, result[i]);
 		}
@@ -148,8 +148,18 @@ function populateFundSymbol(_fund, _contractAddress){
   );
 }
 
-function populateBaseCurrency(_fund, _contractAddress){
-	$("#" + _contractAddress).children(".classCurrency").html("USDT");
+function populateNAV(_fund, _contractAddress){
+  _fund.methods.getNAV()
+  .call({from: account},
+    async function(error, result) {
+      if (!error){
+        console.log(result);
+        $("#" + _contractAddress).children(".classNAV").html(result+" USDT");
+      }
+      else
+      console.error(error);
+    }
+  );
 }
 
 function populateFundType(_fund, _contractAddress){
