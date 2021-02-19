@@ -25,7 +25,7 @@ async function getSelectedAccount(){
 }
 
 //write to BSC and do something with event
-function createFund(){
+function preApproveTransfer(){
   var _initialAmountInput = web3.utils.toWei($('#initialAmountInput').val(), "ether"); // Normalize for 18 decimal places
   var _fundNameInput = $('#fundNameInput').val();
   var _fundSymbolInput = "A" + $('#fundSymbolInput').val();
@@ -39,19 +39,29 @@ function createFund(){
   USDT.methods.approve(fundPlatformAddr, _seedFunding)
   .send({ from: account })
   .on('transactionHash', function (txHash) {
-    console.log("Txn sent. Please wait for confirmation.");
+    console.log("Approval sent. Please check the amount and confirm the pre-approval.");
     console.log(txHash);
   })
   .once('confirmation', function(confNumber, receipt){ 
     console.log(receipt.status);
     if(receipt.status == true){
-	  console.log("Txn successful: "+receipt.status);
+	  console.log("Pre-approval successful: "+receipt.status);
     }
     else{
       console.log("there was an error");
     } 
   }).once('error', function(error){console.log(error);});
+}
+
+function createFund(){
+  var _initialAmountInput = web3.utils.toWei($('#initialAmountInput').val(), "ether"); // Normalize for 18 decimal places
+  var _fundNameInput = $('#fundNameInput').val();
+  var _fundSymbolInput = "A" + $('#fundSymbolInput').val();
+  var _fundTypeInput = $('#fundTypeInput').val();
+  var _assetBaseCurrency = getCurrencyAddress($('#baseCurrencyInput').val(), true);
+  var _seedFunding = web3.utils.toWei($('#investmentInput').val(), "ether"); // Normalize for 18 decimal places
   
+  // Assumes pre-approval for fund platform to transfer USDT granted; otherwise will fail
   // Proceed to create the fund and transfers th USDT to the fund
   fundPlatform.methods.createFund(_initialAmountInput, _fundNameInput, _fundSymbolInput, _fundTypeInput, _assetBaseCurrency, _seedFunding, fundMgr)
   .send({ from: account, gas: 3000000, gasPrice: 20*1000000000 , to: fundPlatformAddr, value: 1*100000000000000000})

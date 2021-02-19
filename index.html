@@ -205,18 +205,18 @@ No login. No setup. No coding required.</p>
               </div>
             </div>
 
-            <div class="col-12">
+            <div class="col-md-8">
               <label for="fundSymbolInput" class="form-label">Fund symbol</label>
 			  <div class="input-group has-validation">
 				  <span class="input-group-text">A</span>
-				  <input type="text" class="form-control" id="fundSymbolInput" minlength="1" maxlength="4" placeholder="Mutual fund symbol (will automatically prefix with A)" required>
+				  <input type="text" class="form-control" id="fundSymbolInput" minlength="1" maxlength="4" placeholder="Mutual fund symbol (will auto prefix with A)" required>
 				  <div class="invalid-feedback">
 					Valid fund symbol is required.
 				  </div>
 			  </div>
             </div>
-
-            <div class="col-md-5">
+			
+            <div class="col-md-4">
               <label for="fundTypeInput" class="form-label">Fund type:</label>
 			  <select class="form-select" id="fundTypeInput" required>
 				<option value="">Choose...</option>
@@ -233,6 +233,10 @@ No login. No setup. No coding required.</p>
               </div>
             </div>
 
+			<hr class="my-4">
+
+            <h4 class="mb-3">Initial Investment</h4>
+
             <div class="col-md-3">
               <label for="baseCurrencyInput" class="form-label">Base currency</label>
               <select class="form-select" id="baseCurrencyInput" required>
@@ -245,12 +249,17 @@ No login. No setup. No coding required.</p>
             </div>
 
             <div class="col-md-4">
-              <label for="investmentInput" class="form-label">Initial investment</label>
+              <label for="investmentInput" class="form-label">Investment amount</label>
               <input type="number" class="form-control" id="investmentInput" placeholder="Min. 1 USDT" min="1" required>
               <div class="invalid-feedback">
                 Initial investment amount of at least 1 base currency is required.
               </div>
             </div>
+			
+			<div class="col-md-5">
+				<label for="preApproveBtn" class="form-label">Pre-approve before fund creation</label>
+				<button id="preApproveBtn" onclick="preApproveTransfer();" class="w-100 btn btn-primary" type="button">Pre-approve (required)</button>
+			</div>
           </div>
 
           <hr class="my-4">
