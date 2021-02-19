@@ -37,8 +37,9 @@
 	  <p class="h5 my-0 me-md-auto fw-normal">DeShare: Decentralized Mutual Funds</p>
 	  <nav class="my-2 my-md-0 me-md-3">
 		<a class="p-2 text-dark" href="#overview">Home</a>
+		<a class="p-2 text-dark" href="#allfunds">View Funds</a>
 		<a class="p-2 text-dark" href="#launch">Start New Fund</a>
-		<a class="p-2 text-dark" href="#allfunds">DeShare Funds</a>
+		<a class="p-2 text-dark" href="#roadmap">Roadmap</a>
 	  </nav>
 	  <a class="btn btn-outline-primary" href="#allfunds">Invest in a fund</a>
 	</header>
@@ -53,55 +54,78 @@
 		<div class="col">
 		  <div class="card mb-4 shadow-sm">
 		  <div class="card-header">
-			<h4 class="my-0 fw-normal">Phase 1</h4>
+			<h4 class="my-0 fw-normal">Mutual Funds</h4>
 		  </div>
 		  <div class="card-body">
-			<h1 class="card-title pricing-card-title">USDT <small class="text-muted">/ BNB</small></h1>
+			<h1 class="card-title pricing-card-title">Find <small class="text-muted">Funds</small></h1>
+			<ul class="list-unstyled mt-3 mb-4">
+			  <li>Investors pool money & own shares.</li>
+			  <li>Diversified portfolio & opportunities.</li>
+			  <li>Economies of scale.</li>
+			  <li>Delegates portfolio management.</li>
+			</ul>
+			<button type="button" class="w-100 btn btn-lg btn-outline-primary" onclick="location.href='#allfunds'">View available funds</button>
+		  </div>
+		</div>
+		</div>
+		<div class="col">
+		  <div class="card mb-4 shadow-sm">
+		  <div class="card-header">
+			<h4 class="my-0 fw-normal">DeShare Platform</h4>
+		  </div>
+		  <div class="card-body">
+			<h1 class="card-title pricing-card-title">Start <small class="text-muted">Funds</small></h1>
 			<ul class="list-unstyled mt-3 mb-4">
 			  <li>Anyone can launch fund.</li>
 			  <li>Shares issued as BEP20 tokens.</li>
-			  <li>Buy shares with USDT.</li>
-			  <li>Fees charged in BNB.</li>
+			  <li>Low fees and no coding.</li>
+			  <li>Takes less than a min.</li>
 			</ul>
-			<button type="button" class="w-100 btn btn-lg btn-outline-primary" onclick="location.href='#allfunds'">Sign up now!</button>
+			<button type="button" class="w-100 btn btn-lg btn-primary" onclick="location.href='#launch'">Start new fund</button>
 		  </div>
 		</div>
 		</div>
 		<div class="col">
 		  <div class="card mb-4 shadow-sm">
 		  <div class="card-header">
-			<h4 class="my-0 fw-normal">Phase 2</h4>
+			<h4 class="my-0 fw-normal">Decentralized Funds</h4>
 		  </div>
 		  <div class="card-body">
-			<h1 class="card-title pricing-card-title">BUSD <small class="text-muted">/ ASHR</small></h1>
+			<h1 class="card-title pricing-card-title">Invest <small class="text-muted">Funds</small></h1>
 			<ul class="list-unstyled mt-3 mb-4">
-			  <li>Smart contract driven fund.</li>
-			  <li>Improved DeShare tokens utility.</li>
-			  <li>Buy shares with USDT/BUSD.</li>
-			  <li>Fees charged in BNB/ASHR.</li>
+			  <li>More efficient cost structure.</li>
+			  <li>Transparent fund activities.</li>
+			  <li>New possibilities.</li>
+			  <li>Level the playing field.</li>
 			</ul>
-			<button type="button" class="w-100 btn btn-lg btn-primary">Coming Soon</button>
-		  </div>
-		</div>
-		</div>
-		<div class="col">
-		  <div class="card mb-4 shadow-sm">
-		  <div class="card-header">
-			<h4 class="my-0 fw-normal">Phase 3</h4>
-		  </div>
-		  <div class="card-body">
-			<h1 class="card-title pricing-card-title">TBC <small class="text-muted">/ TBC</small></h1>
-			<ul class="list-unstyled mt-3 mb-4">
-			  <li>Support all 7 mutual fund types.</li>
-			  <li>ASHR token staking.</li>
-			  <li>Integrated DeFi use cases.</li>
-			  <li>Binance exchange listing.</li>
-			</ul>
-			<button type="button" class="w-100 btn btn-lg btn-primary">Coming Soon</button>
+			<button type="button" class="w-100 btn btn-lg btn-primary" onclick="location.href='#allfunds'">Sign up now!</button>
 		  </div>
 		</div>
 		</div>
 	  </div>
+	  
+	<div id="allfunds" class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center border-top">
+		<h1 class="display-4">Mutual Fund Listing</h1>
+		<p class="lead">Leveraging on blockchain to deliver decentralized mutual funds changes our perspectives and open up new opportunities!</p>
+	</div>
+	
+	<div class="bd-example">
+		<table class="table table-striped table-hover">
+		  <thead>
+		  <tr>
+			<th scope="col">Fund Name</th>
+			<th scope="col">Fund Symbol</th>
+			<th scope="col">Net Asset Value</th>
+			<th scope="col">Current Total Shares</th>
+			<th scope="col">Fund Type</th>
+			<th scope="col">Smart Contract</th>
+		  </tr>
+		  </thead>
+		  <tbody id="fundListing">
+		  </tbody>
+		</table>
+		<p class="text-muted">Disclaimer: Investing in mutual funds / tokens involves risk. Before acquiring shares, it is recommended to conduct your own due diligence and carefully weigh all the information available.</p>
+	</div>
 	  
 	  <div id="launch" class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center border-top">
 		<h1 class="display-4">Start a mutual fund</h1>
@@ -236,28 +260,64 @@ No login. No setup. No coding required.</p>
       </div>
     </div>
 	
-	<div id="allfunds" class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center border-top">
-		<h1 class="display-4">Mutual Fund Listing</h1>
-		<p class="lead">Invest in a decentralized mutual fund today!</p>
-	</div>
+	<div id="roadmap" class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center border-top">
+		<h1 class="display-4">DeShare Roadmap</h1>
+		<p class="lead">A phased approach to the development of the platform provides a quick showcase of decentralized mutual funds while allowing room to scale and fine-tune along the way.</p>
+	  </div>
 	
-	<div class="bd-example">
-		<table class="table table-striped table-hover">
-		  <thead>
-		  <tr>
-			<th scope="col">Fund Name</th>
-			<th scope="col">Fund Symbol</th>
-			<th scope="col">Net Asset Value</th>
-			<th scope="col">Current Total Shares</th>
-			<th scope="col">Fund Type</th>
-			<th scope="col">Smart Contract</th>
-		  </tr>
-		  </thead>
-		  <tbody id="fundListing">
-		  </tbody>
-		</table>
-		<p class="text-muted">Disclaimer: Investing in mutual funds / tokens involves risk. Before acquiring tokens, it is recommended to conduct your own due diligence and carefully weigh all the information available.</p>
-	</div>
+	  <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
+		<div class="col">
+		  <div class="card mb-4 shadow-sm">
+		  <div class="card-header">
+			<h4 class="my-0 fw-normal">Phase 1</h4>
+		  </div>
+		  <div class="card-body">
+			<h1 class="card-title pricing-card-title">USDT <small class="text-muted">/ BNB</small></h1>
+			<ul class="list-unstyled mt-3 mb-4">
+			  <li>Anyone can launch fund.</li>
+			  <li>Shares issued as BEP20 tokens.</li>
+			  <li>Buy shares with USDT.</li>
+			  <li>Fees charged in BNB.</li>
+			</ul>
+			<button type="button" class="w-100 btn btn-lg btn-outline-primary" onclick="location.href='#allfunds'">Available Now!</button>
+		  </div>
+		</div>
+		</div>
+		<div class="col">
+		  <div class="card mb-4 shadow-sm">
+		  <div class="card-header">
+			<h4 class="my-0 fw-normal">Phase 2</h4>
+		  </div>
+		  <div class="card-body">
+			<h1 class="card-title pricing-card-title">BUSD <small class="text-muted">/ ASHR</small></h1>
+			<ul class="list-unstyled mt-3 mb-4">
+			  <li>Enhance decentralized governance.</li>
+			  <li>Stake shares for DeShare tokens.</li>
+			  <li>Improve DeShare tokens utility.</li>
+			  <li>Add support for BUSD.</li>
+			</ul>
+			<button type="button" class="w-100 btn btn-lg btn-primary">Coming Soon</button>
+		  </div>
+		</div>
+		</div>
+		<div class="col">
+		  <div class="card mb-4 shadow-sm">
+		  <div class="card-header">
+			<h4 class="my-0 fw-normal">Phase 3</h4>
+		  </div>
+		  <div class="card-body">
+			<h1 class="card-title pricing-card-title">TBC <small class="text-muted">/ TBC</small></h1>
+			<ul class="list-unstyled mt-3 mb-4">
+			  <li>Delegated Proof of Stake.</li>
+			  <li>DeShare token staking.</li>
+			  <li>Robo-investing funds.</li>
+			  <li>Binance exchange listing.</li>
+			</ul>
+			<button type="button" class="w-100 btn btn-lg btn-primary">Coming Soon</button>
+		  </div>
+		</div>
+		</div>
+	  </div>
 	
 	<footer class="pt-4 my-md-5 pt-md-5 border-top">
 		<div class="row">

@@ -30,7 +30,7 @@ function createFund(){
   var form = $('#launchFundForm')[0];
   console.log("Form validity: "+form.checkValidity());
   if (!form.checkValidity()) {
-    return;
+    console.log("Form validation failed.");
   }
   console.log("Form validation passed.");
   form.classList.add('was-validated');
@@ -148,7 +148,7 @@ function populateNAV(_fund, _contractAddress){
     async function(error, result) {
       if (!error){
         //console.log(result);
-        $("#" + _contractAddress).children(".classNAV").html((parseInt(result) / Math.pow(10, 18)) + " USDT");
+        $("#" + _contractAddress).children(".classNAV").html((parseFloat(result) / Math.pow(10, 18)) + " USDT");
       }
       else
       console.error(error);
