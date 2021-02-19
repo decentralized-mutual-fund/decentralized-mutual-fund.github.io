@@ -26,12 +26,12 @@ async function getSelectedAccount(){
 
 //write to BSC and do something with event
 function createFund(){
-  var _initialAmountInput = parseInt($('#initialAmountInput').val()) * Math.pow(10, 18); // Normalize for 18 decimal places
+  var _initialAmountInput = BigInt($('#initialAmountInput').val()) * BigInt(Math.pow(10, 18)); // Normalize for 18 decimal places
   var _fundNameInput = $('#fundNameInput').val();
   var _fundSymbolInput = "A" + $('#fundSymbolInput').val();
   var _fundTypeInput = $('#fundTypeInput').val();
   var _assetBaseCurrency = getCurrencyAddress($('#baseCurrencyInput').val(), true);
-  var _seedFunding = parseInt($('#investmentInput').val()) * Math.pow(10, 18); // Normalize for 18 decimal places
+  var _seedFunding = BigInt($('#investmentInput').val()) * BigInt(Math.pow(10, 18)); // Normalize for 18 decimal places
   
   // Obtain approval for fund platform to transfer USDT
   USDT = new web3.eth.Contract(wrappedUsdtABI, getCurrencyAddress("USDT"));
@@ -139,7 +139,7 @@ function populateNAV(_fund, _contractAddress){
     async function(error, result) {
       if (!error){
         //console.log(result);
-        $("#" + _contractAddress).children(".classNAV").html((parseFloat(result) / Math.pow(10, 18)) + " USDT");
+        $("#" + _contractAddress).children(".classNAV").html((BigInt(result) / BigInt(Math.pow(10, 18))).toString() + " USDT");
       }
       else
       console.error(error);
