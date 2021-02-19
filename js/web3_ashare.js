@@ -28,10 +28,11 @@ async function getSelectedAccount(){
 function createFund(){
   //validate form before submission of contract
   var form = $('#launchFundForm')[0];
+  console.log("Form validity: "+form.checkValidity());
   if (!form.checkValidity()) {
     return;
   }
-
+  console.log("Form validation passed.");
   form.classList.add('was-validated');
   
   var _initialAmountInput = parseInt($('#initialAmountInput').val()) * Math.pow(10, 18); // Normalize for 18 decimal places
