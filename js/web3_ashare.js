@@ -44,7 +44,7 @@ function createFund(){
   // Obtain approval for fund platform to transfer USDT
   USDT = new web3.eth.Contract(wrappedUsdtABI, getCurrencyAddress("USDT"));
   
-  USDT.methods.approve(fundPlatform, _seedFunding)
+  USDT.methods.approve(fundPlatformAddr, _seedFunding)
   .send({ from: account })
   .on('transactionHash', function (txHash) {
     console.log("Txn sent. Please wait for confirmation.");
@@ -118,7 +118,7 @@ function populateFundName(_fund, _contractAddress){
   .call({from: account},
     async function(error, result) {
       if (!error){
-        console.log(result);
+        //console.log(result);
 		$("#" + _contractAddress).children(".className").html(result);
       }
       else
@@ -132,7 +132,7 @@ function populateFundSymbol(_fund, _contractAddress){
   .call({from: account},
     async function(error, result) {
       if (!error){
-        console.log(result);
+        //console.log(result);
 		$("#" + _contractAddress).children(".classSymbol").html(result);
       }
       else
@@ -146,7 +146,7 @@ function populateNAV(_fund, _contractAddress){
   .call({from: account},
     async function(error, result) {
       if (!error){
-        console.log(result);
+        //console.log(result);
         $("#" + _contractAddress).children(".classNAV").html((parseInt(result) / Math.pow(10, 18)) + " USDT");
       }
       else
@@ -160,7 +160,7 @@ function populateFundType(_fund, _contractAddress){
   .call({from: account},
     async function(error, result) {
       if (!error){
-        console.log(result);
+        //console.log(result);
         $("#" + _contractAddress).children(".classFundType").html(result);
       }
       else
@@ -174,7 +174,7 @@ function populateFundTotalSupply(_fund, _contractAddress){
   .call({from: account},
     async function(error, result) {
       if (!error){
-        console.log(result);
+        //console.log(result);
         $("#" + _contractAddress).children(".classTotalSupply").html(result);
       }
       else
