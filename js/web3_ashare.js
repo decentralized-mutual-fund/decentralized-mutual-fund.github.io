@@ -1,5 +1,5 @@
 //initialize web3 and connect metamask
-var web3, account, fund, newFund; 
+var web3, account, fundPlatform, newFund, USDT; 
 $('#loader').hide();
 
 window.addEventListener('load', function() {
@@ -8,8 +8,8 @@ window.addEventListener('load', function() {
     window.ethereum.request({ method: 'eth_requestAccounts' });
 	getSelectedAccount();
 	
-    //fund = new web3.eth.Contract(fundABI, fundMgr);
-    //populateFundDetails(fundMgr);
+    fundPlatform = new web3.eth.Contract(fundPlatformABI, fundPlatformAddr);
+    populateFundDetails(fundPlatform);
   }
   else {
     console.log('Error: web3 provider not found. Make sure Metamask or the wallet is configured properly. Otherwise, download and install Metamask: https://metamask.io/');
@@ -27,25 +27,49 @@ async function getSelectedAccount(){
 //write to BSC and do something with event
 function createFund(){
   //validate form before submission of contract
-  //var form = $('#launchFundForm');
-  //if (!form.checkValidity()) {
-    //return;
-  //}
+  var form = $('#launchFundForm');
+  if (!form.checkValidity()) {
+    return;
+  }
 
-  //form.classList.add('was-validated');
+  form.classList.add('was-validated');
   
-  var _initialAmountInput = $('#initialAmountInput').val();
+  var _initialAmountInput = parseInt($('#initialAmountInput').val()) * Math.pow(10, 18); // Normalize for 18 decimal places
   var _fundNameInput = $('#fundNameInput').val();
   var _fundSymbolInput = "A" + $('#fundSymbolInput').val();
   var _fundTypeInput = $('#fundTypeInput').val();
+  var _assetBaseCurrency = getCurrencyAddress($('#baseCurrencyInput').val(), true);
+  var _seedFunding = $('#investmentInput').val();
   
-  newFund = new web3.eth.Contract(fundABI)
+  /*newFund = new web3.eth.Contract(fundABI)
   .deploy({
 	  data: fundContractBytecode,
 	  arguments: [_initialAmountInput, _fundNameInput, _fundSymbolInput, _fundTypeInput]
   })
-  .send({ from: account, gas: 3000000, gasPrice: 30*1000000000 })
-  //.send({ from: account, gas: 3000000, gasPrice: 30*1000000000 , to: fundMgr, value: 1*100000000000000000})
+  .send({ from: account, gas: 3000000, gasPrice: 20*1000000000 })*/
+  
+  // Obtain approval for fund platform to transfer USDT
+  USDT = new web3.eth.Contract(wrappedUsdtABI, getCurrencyAddress("USDT"));
+  
+  USDT.methods.approve(fundPlatform, _seedFunding)
+  .send({ from: account })
+  .on('transactionHash', function (txHash) {
+    console.log("Txn sent. Please wait for confirmation.");
+    console.log(txHash);
+  })
+  .once('confirmation', function(confNumber, receipt){ 
+    console.log(receipt.status);
+    if(receipt.status == true){
+	  console.log("Txn successful: "+receipt.status);
+    }
+    else{
+      console.log("there was an error");
+    } 
+  }).once('error', function(error){console.log(error);});
+  
+  // Proceed to create the fund and transfers th USDT to the fund
+  fundPlatform.methods.createFund(_initialAmountInput, _fundNameInput, _fundSymbolInput, _fundTypeInput, _assetBaseCurrency, _seedFunding, fundMgr)
+  .send({ from: account, gas: 3000000, gasPrice: 20*1000000000 , to: fundPlatformAddr, value: 1*100000000000000000})
 
   .on('transactionHash', function (txHash) {
     console.log("Txn sent. Please wait for confirmation.");
@@ -71,16 +95,29 @@ function createFund(){
 }
 
 //read
-function populateFundDetails(_contractAddress){
-  var _fund = new web3.eth.Contract(fundABI, _contractAddress);
+function populateFundDetails(_fundPlatform){
+  _fundPlatform.methods.getAllFunds()
+  .call({from: account},
+    async function(error, result) {
+      if (!error){
+        console.log(result);
+		
+		for(let i = 0; i < result.length; i++){
+			var _fund = new web3.eth.Contract(fundABI, result[i]);
   
-  $("#fundListing").append("<tr id='"+_contractAddress+"'></tr>");
-  
-  populateFundName(_fund, _contractAddress);
-  populateFundSymbol(_fund, _contractAddress);
-  populateBaseCurrency(_fund, _contractAddress)
-  //populateFundType(_fund, _contractAddress);
-  populateFundTotalSupply(_fund, _contractAddress);
+			$("#fundListing").append("<tr id='"+result[i]+"'></tr>");
+			  
+			populateFundName(_fund, result[i]);
+			populateFundSymbol(_fund, result[i]);
+			populateBaseCurrency(_fund, result[i])
+			//populateFundType(_fund, result[i]);
+			populateFundTotalSupply(_fund, result[i]);
+		}
+      }
+      else
+      console.error(error);
+    }
+  );
 }
 
 function populateFundName(_fund, _contractAddress){
@@ -149,4 +186,16 @@ function populateFundTotalSupply(_fund, _contractAddress){
       console.error(error);
     }
   );
+}
+
+// Helper function
+function getCurrencyAddress(_currencyString){
+	switch (_currencyString) {
+	  case 'USDT':
+		return wrappedUSDT;
+	  case 'BUSD':
+		return wrappedBUSD;
+	  default:
+		return "0";
+	}
 }
