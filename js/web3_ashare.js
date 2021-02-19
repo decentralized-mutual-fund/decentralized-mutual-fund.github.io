@@ -105,13 +105,13 @@ function populateFundDetails(_fundPlatform){
 		for(let i = 0; i < result.length; i++){
 			var _fund = new web3.eth.Contract(fundABI, result[i]);
   
-			$("#fundListing").append("<tr id='"+result[i]+"'></tr>");
+			$("#fundListing").append("<tr id='"+result[i]+"'><th scope='row' class='className'></th><td class='classSymbol'></td><td class='classCurrency'></td><td class='classTotalSupply'></td><td class='classFundType'></td><td><a href='https://testnet.bscscan.com/address/"+result[i]+"'>Details</a></td></tr>");
 			  
 			populateFundName(_fund, result[i]);
 			populateFundSymbol(_fund, result[i]);
 			populateBaseCurrency(_fund, result[i])
-			//populateFundType(_fund, result[i]);
 			populateFundTotalSupply(_fund, result[i]);
+			populateFundType(_fund, result[i]);
 		}
       }
       else
@@ -121,14 +121,12 @@ function populateFundDetails(_fundPlatform){
 }
 
 function populateFundName(_fund, _contractAddress){
-  var _tblHeader = $("#" + _contractAddress).append("<th scope='row'></th>");
-  
   _fund.methods.name()
   .call({from: account},
     async function(error, result) {
       if (!error){
         console.log(result);
-		_tblHeader.html(result);
+		$("#" + _contractAddress).children(".className").html(result);
       }
       else
       console.error(error);
@@ -137,14 +135,12 @@ function populateFundName(_fund, _contractAddress){
 }
 
 function populateFundSymbol(_fund, _contractAddress){
-  var _tblData = $("#" + _contractAddress).append("<td></td>");
-  
   _fund.methods.symbol()
   .call({from: account},
     async function(error, result) {
       if (!error){
         console.log(result);
-		_tblData.html(result);
+		$("#" + _contractAddress).children(".classSymbol").html(result);
       }
       else
       console.error(error);
@@ -153,18 +149,16 @@ function populateFundSymbol(_fund, _contractAddress){
 }
 
 function populateBaseCurrency(_fund, _contractAddress){
-	var _tblData = $("#" + _contractAddress).append("<td>"+ "USDT" +"</td>");
+	$("#" + _contractAddress).children(".classCurrency").html("USDT");
 }
 
 function populateFundType(_fund, _contractAddress){
-  var _tblData = $("#" + _contractAddress).append("<td></td>");
-  
   _fund.methods.getFundType()
   .call({from: account},
     async function(error, result) {
       if (!error){
         console.log(result);
-        _tblData.html(result);
+        $("#" + _contractAddress).children(".classFundType").html(result);
       }
       else
       console.error(error);
@@ -173,14 +167,12 @@ function populateFundType(_fund, _contractAddress){
 }
 
 function populateFundTotalSupply(_fund, _contractAddress){
-  var _tblData = $("#" + _contractAddress).append("<td></td>");
-  
   _fund.methods.totalSupply()
   .call({from: account},
     async function(error, result) {
       if (!error){
         console.log(result);
-        _tblData.html(result);
+        $("#" + _contractAddress).children(".classTotalSupply").html(result);
       }
       else
       console.error(error);
