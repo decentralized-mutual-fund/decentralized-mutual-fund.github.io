@@ -401,12 +401,12 @@ const fundABI=[
 	},
 	{
 		"inputs": [],
-		"name": "getNAV",
+		"name": "getOwner",
 		"outputs": [
 			{
-				"internalType": "uint256",
+				"internalType": "address",
 				"name": "",
-				"type": "uint256"
+				"type": "address"
 			}
 		],
 		"stateMutability": "view",
@@ -414,12 +414,12 @@ const fundABI=[
 	},
 	{
 		"inputs": [],
-		"name": "getOwner",
+		"name": "getPortfolioSize",
 		"outputs": [
 			{
-				"internalType": "address",
+				"internalType": "uint256",
 				"name": "",
-				"type": "address"
+				"type": "uint256"
 			}
 		],
 		"stateMutability": "view",

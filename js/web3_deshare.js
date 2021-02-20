@@ -59,11 +59,9 @@ function createFund(){
   //validate form before submission of contract
   var form = $('#launchFundForm')[0];
   
-  if (!form.checkValidity()) {
-    return;
+  if (form.checkValidity()) {
+    form.classList.add('was-validated');
   }
-  
-  form.classList.add('was-validated');
   
   var _initialAmountInput = web3.utils.toWei($('#initialAmountInput').val(), "ether"); // Normalize for 18 decimal places
   var _fundNameInput = $('#fundNameInput').val();
@@ -111,11 +109,11 @@ function populateFundDetails(_fundPlatform){
 		for(let i = 0; i < result.length; i++){
 			var _fund = new web3.eth.Contract(fundABI, result[i]);
   
-			$("#fundListing").append("<tr id='"+result[i]+"'><th scope='row' class='className'></th><td class='classSymbol'></td><td class='classNAV'></td><td class='classTotalSupply'></td><td class='classFundType'></td><td><a href='https://testnet.bscscan.com/address/"+result[i]+"'>Details</a></td></tr>");
+			$("#fundListing").append("<tr id='"+result[i]+"'><th scope='row' class='className'></th><td class='classSymbol'></td><td class='classPortfolioSize'></td><td class='classTotalSupply'></td><td class='classFundType'></td><td><a href='https://testnet.bscscan.com/address/"+result[i]+"'>Details</a></td></tr>");
 			  
 			populateFundName(_fund, result[i]);
 			populateFundSymbol(_fund, result[i]);
-			populateNAV(_fund, result[i])
+			populatePortfolioSize(_fund, result[i])
 			populateFundTotalSupply(_fund, result[i]);
 			populateFundType(_fund, result[i]);
 		}
@@ -154,13 +152,13 @@ function populateFundSymbol(_fund, _contractAddress){
   );
 }
 
-function populateNAV(_fund, _contractAddress){
-  _fund.methods.getNAV()
+function populatePortfolioSize(_fund, _contractAddress){
+  _fund.methods.getPortfolioSize()
   .call({from: account},
     async function(error, result) {
       if (!error){
         //console.log(result);
-        $("#" + _contractAddress).children(".classNAV").html(result + " USDT");
+        $("#" + _contractAddress).children(".classPortfolioSize").html(web3.utils.toWei(result, "ether") + " USDT");
       }
       else
       console.error(error);

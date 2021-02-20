@@ -211,6 +211,19 @@ const fundPlatformABI=[
 	{
 		"inputs": [
 			{
+				"internalType": "address payable",
+				"name": "_importedFundAddr",
+				"type": "address"
+			}
+		],
+		"name": "importMutualFund",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
 				"internalType": "address",
 				"name": "spender",
 				"type": "address"
@@ -392,6 +405,24 @@ const fundPlatformABI=[
 	{
 		"inputs": [
 			{
+				"internalType": "string",
+				"name": "_fundSymbol",
+				"type": "string"
+			},
+			{
+				"internalType": "address",
+				"name": "_newFundOwner",
+				"type": "address"
+			}
+		],
+		"name": "transferMutualFund",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
 				"internalType": "address",
 				"name": "newOwner",
 				"type": "address"
@@ -479,25 +510,6 @@ const fundPlatformABI=[
 				"internalType": "uint8",
 				"name": "",
 				"type": "uint8"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"name": "fundListing",
-		"outputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
 			}
 		],
 		"stateMutability": "view",
