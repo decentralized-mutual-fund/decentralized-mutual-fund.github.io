@@ -26,10 +26,6 @@ async function getSelectedAccount(){
 
 //write to BSC and do something with event
 function preApproveTransfer(){
-  var _initialAmountInput = web3.utils.toWei($('#initialAmountInput').val(), "ether"); // Normalize for 18 decimal places
-  var _fundNameInput = $('#fundNameInput').val();
-  var _fundSymbolInput = "A" + $('#fundSymbolInput').val();
-  var _fundTypeInput = $('#fundTypeInput').val();
   var _assetBaseCurrency = getCurrencyAddress($('#baseCurrencyInput').val(), true);
   var _seedFunding = web3.utils.toWei($('#investmentInput').val(), "ether"); // Normalize for 18 decimal places
   
@@ -40,11 +36,17 @@ function preApproveTransfer(){
   .send({ from: account })
   .on('transactionHash', function (txHash) {
     console.log("Approval sent. Please check the amount and confirm the pre-approval.");
+    $('#preApproveBtn').hide();
+    $('#loader').show();
+	$('#result').html('<div class="alert alert-primary alert-dismissible fade show" role="alert"><p>Pre-approval txn sent and pending confirmation. Check your transaction status <a href="'+bscScanURL+'/tx/'+txHash+'">here</a></p></div>');
     console.log(txHash);
   })
   .once('confirmation', function(confNumber, receipt){ 
     console.log(receipt.status);
     if(receipt.status == true){
+	  $('#loader').hide();
+      $('#preApproveBtn').show();
+      $('#result').html('<div class="alert alert-success alert-dismissible fade show" role="alert"><p>Pre-approval to platform smart contract successfully granted. Check your transaction status <a href="'+bscScanURL+'/tx/'+receipt.status+'">here</a></p></div>');
 	  console.log("Pre-approval successful: "+receipt.status);
     }
     else{
@@ -54,6 +56,15 @@ function preApproveTransfer(){
 }
 
 function createFund(){
+  //validate form before submission of contract
+  var form = $('#launchFundForm')[0];
+  
+  if (!form.checkValidity()) {
+    return;
+  }
+  
+  form.classList.add('was-validated');
+  
   var _initialAmountInput = web3.utils.toWei($('#initialAmountInput').val(), "ether"); // Normalize for 18 decimal places
   var _fundNameInput = $('#fundNameInput').val();
   var _fundSymbolInput = "A" + $('#fundSymbolInput').val();
@@ -149,7 +160,7 @@ function populateNAV(_fund, _contractAddress){
     async function(error, result) {
       if (!error){
         //console.log(result);
-        $("#" + _contractAddress).children(".classNAV").html(web3.utils.fromWei(result, "ether") + " USDT");
+        $("#" + _contractAddress).children(".classNAV").html(result + " USDT");
       }
       else
       console.error(error);
@@ -177,7 +188,7 @@ function populateFundTotalSupply(_fund, _contractAddress){
     async function(error, result) {
       if (!error){
         //console.log(result);
-        $("#" + _contractAddress).children(".classTotalSupply").html(result);
+        $("#" + _contractAddress).children(".classTotalSupply").html(web3.utils.fromWei(result, "ether"));
       }
       else
       console.error(error);
