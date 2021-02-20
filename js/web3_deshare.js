@@ -158,7 +158,7 @@ function populatePortfolioSize(_fund, _contractAddress){
     async function(error, result) {
       if (!error){
         //console.log(result);
-        $("#" + _contractAddress).children(".classPortfolioSize").html(web3.utils.toWei(result, "ether") + " USDT");
+        $("#" + _contractAddress).children(".classPortfolioSize").html(web3.utils.fromWei(result, "ether") + " USDT");
       }
       else
       console.error(error);
